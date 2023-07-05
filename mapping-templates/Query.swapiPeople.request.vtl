@@ -1,0 +1,13 @@
+## [Start] Create request. **
+#set( $headers = $utils.http.copyHeaders($ctx.request.headers) )
+$util.qr($headers.put("accept-encoding", "application/json"))
+$util.qr($headers.put("claim", "X-Header-Value"))
+{
+  "version": "2018-05-29",
+  "method": "GET",
+  "resourcePath": "/people/${ctx.args.params.id}/",
+  "params": {
+      "headers": $util.toJson($headers)
+  }
+}
+## [End] Create request. **

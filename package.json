@@ -11,7 +11,10 @@
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@types/aws-lambda": "^8.10.119",
+    "@types/lodash": "^4.14.195",
     "aws-lambda": "^1.0.7",
+    "axios": "^1.4.0",
+    "lodash": "^4.17.21",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4",
     "typescript": "^5.1.6"

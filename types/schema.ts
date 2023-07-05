@@ -7,6 +7,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: { input: string; output: string; }
@@ -29,7 +30,13 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   stories?: Maybe<Array<Maybe<Story>>>;
+  swapiPeople?: Maybe<SwapiPeople>;
   test?: Maybe<Story>;
+};
+
+
+export type QuerySwapiPeopleArgs = {
+  params: QuerySwapiPeopleInput;
 };
 
 
@@ -37,11 +44,21 @@ export type QueryTestArgs = {
   sport?: InputMaybe<Sports>;
 };
 
+export type QuerySwapiPeopleInput = {
+  id: Scalars['String']['input'];
+};
+
 export enum Sports {
   Baseball = 'BASEBALL',
   Basketball = 'BASKETBALL',
   CrossCountry = 'CROSS_COUNTRY'
 }
+
+export type SwapiPeople = {
+  __typename?: 'SWAPIPeople';
+  height?: Maybe<Scalars['String']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
+};
 
 export type Story = {
   __typename?: 'Story';
@@ -134,7 +151,9 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Double: ResolverTypeWrapper<Scalars['Double']['output']>;
   Query: ResolverTypeWrapper<{}>;
+  QuerySwapiPeopleInput: QuerySwapiPeopleInput;
   SPORTS: Sports;
+  SWAPIPeople: ResolverTypeWrapper<SwapiPeople>;
   Story: ResolverTypeWrapper<Story>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 };
@@ -153,6 +172,8 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
   Double: Scalars['Double']['output'];
   Query: {};
+  QuerySwapiPeopleInput: QuerySwapiPeopleInput;
+  SWAPIPeople: SwapiPeople;
   Story: Story;
   String: Scalars['String']['output'];
 };
@@ -229,7 +250,14 @@ export interface DoubleScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   stories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Story']>>>, ParentType, ContextType>;
+  swapiPeople?: Resolver<Maybe<ResolversTypes['SWAPIPeople']>, ParentType, ContextType, RequireFields<QuerySwapiPeopleArgs, 'params'>>;
   test?: Resolver<Maybe<ResolversTypes['Story']>, ParentType, ContextType, Partial<QueryTestArgs>>;
+};
+
+export type SwapiPeopleResolvers<ContextType = any, ParentType extends ResolversParentTypes['SWAPIPeople'] = ResolversParentTypes['SWAPIPeople']> = {
+  height?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type StoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Story'] = ResolversParentTypes['Story']> = {
@@ -252,6 +280,7 @@ export type Resolvers<ContextType = any> = {
   BigInt?: GraphQLScalarType;
   Double?: GraphQLScalarType;
   Query?: QueryResolvers<ContextType>;
+  SWAPIPeople?: SwapiPeopleResolvers<ContextType>;
   Story?: StoryResolvers<ContextType>;
 };
 

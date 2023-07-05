@@ -11,7 +11,17 @@ enum SPORTS {
   CROSS_COUNTRY
 }
 
+type SWAPIPeople {
+  name: String
+  height: String
+}
+
+input QuerySwapiPeopleInput {
+  id: String!
+}
+
 type Query {
   stories: [Story]
   test(sport: SPORTS): Story
+  swapiPeople(params: QuerySwapiPeopleInput!): SWAPIPeople
 }
