@@ -1,0 +1,17 @@
+type Story {
+  id: String
+  name: String
+  sport: String
+  email: AWSEmail
+}
+
+enum SPORTS {
+  BASEBALL
+  BASKETBALL
+  CROSS_COUNTRY
+}
+
+type Query {
+  stories: [Story]
+  test(sport: SPORTS): [Story]
+}
