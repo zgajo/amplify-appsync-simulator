@@ -7,6 +7,7 @@ import {
   RESOLVER_KIND,
 } from "@aws-amplify/amplify-appsync-simulator";
 import { AppSyncResolverHandler } from "aws-lambda";
+import { Query, QueryTestArgs } from "./types/schema";
 
 // Templates that are equivalent to the direct Lambda resolver behavior,
 // based on what we've seen with deployed direct Lambda resolvers.
@@ -25,11 +26,18 @@ $util.toJson($ctx.result)`;
 // Replace with your GraphQL schema
 const schemaContent = fs.readFileSync("./graphql/schema.graphql", "utf8");
 
-const lambdaFunction: AppSyncResolverHandler<any, any> = async (
+const storiesFunction: AppSyncResolverHandler<any, Query["stories"]> = async (
   event,
   context
 ) => {
   return [{ id: "noop", name: "banana", sport: event.arguments?.sport }];
+};
+
+const testFunction: AppSyncResolverHandler<
+  QueryTestArgs,
+  Query["test"]
+> = async (event, context) => {
+  return { id: "noop", name: "banana", sport: event.arguments.sport };
 };
 
 const baseConfig: AmplifyAppSyncSimulatorConfig = {
@@ -45,8 +53,13 @@ const baseConfig: AmplifyAppSyncSimulatorConfig = {
   dataSources: [
     {
       type: "AWS_LAMBDA",
+      name: "storiesLambda",
+      invoke: storiesFunction,
+    } as AppSyncSimulatorDataSourceLambdaConfig,
+    {
+      type: "AWS_LAMBDA",
       name: "testLambda",
-      invoke: lambdaFunction,
+      invoke: testFunction,
     } as AppSyncSimulatorDataSourceLambdaConfig,
   ],
   resolvers: [
@@ -55,7 +68,7 @@ const baseConfig: AmplifyAppSyncSimulatorConfig = {
       kind: RESOLVER_KIND.UNIT,
       typeName: "Query",
       fieldName: "stories",
-      dataSourceName: "testLambda",
+      dataSourceName: "storiesLambda",
       requestMappingTemplate: directLambdaRequestTemplate,
       responseMappingTemplate: directLambdaResponseTemplate,
     },

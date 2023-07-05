@@ -13,5 +13,5 @@ enum SPORTS {
 
 type Query {
   stories: [Story]
-  test(sport: SPORTS): [Story]
+  test(sport: SPORTS): Story
 }

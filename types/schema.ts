@@ -29,7 +29,7 @@ export type Scalars = {
 export type Query = {
   __typename?: 'Query';
   stories?: Maybe<Array<Maybe<Story>>>;
-  test?: Maybe<Array<Maybe<Story>>>;
+  test?: Maybe<Story>;
 };
 
 
@@ -229,7 +229,7 @@ export interface DoubleScalarConfig extends GraphQLScalarTypeConfig<ResolversTyp
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   stories?: Resolver<Maybe<Array<Maybe<ResolversTypes['Story']>>>, ParentType, ContextType>;
-  test?: Resolver<Maybe<Array<Maybe<ResolversTypes['Story']>>>, ParentType, ContextType, Partial<QueryTestArgs>>;
+  test?: Resolver<Maybe<ResolversTypes['Story']>, ParentType, ContextType, Partial<QueryTestArgs>>;
 };
 
 export type StoryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Story'] = ResolversParentTypes['Story']> = {
