@@ -32,7 +32,7 @@ const paramsSerializer = (params: any) => {
 
 export type HTTPLoaderConfig = {
   type: "HTTP";
-  name: String;
+  name: string;
   config: { endpoint: string };
 };
 

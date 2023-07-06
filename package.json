@@ -14,7 +14,10 @@
     "@types/lodash": "^4.14.195",
     "aws-lambda": "^1.0.7",
     "axios": "^1.4.0",
+    "bluebird": "^3.7.2",
     "lodash": "^4.17.21",
+    "mysql2": "^3.4.5",
+    "pg": "^8.11.1",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.4",
     "typescript": "^5.1.6"
@@ -23,5 +26,9 @@
     "start": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/index.js\"",
     "codegen": "graphql-codegen",
     "prestart": "npm run codegen"
+  },
+  "devDependencies": {
+    "@types/bluebird": "^3.5.38",
+    "@types/pg": "^8.10.2"
   }
 }
