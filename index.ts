@@ -55,7 +55,16 @@ const baseConfig: AppSyncSimulatorConfig = {
     },
     name: "test",
     apiKey: "da2-fakeApiId123456",
-    additionalAuthenticationProviders: [],
+    additionalAuthenticationProviders: [
+      {
+        authenticationType:
+          AmplifyAppSyncSimulatorAuthenticationType.AWS_LAMBDA,
+        lambdaAuthorizerConfig: {
+          AuthorizerUri:
+            "file:///Users/dpranjic/Desktop/Projects/testing/appsync/aws-appsync-simulator/lambdaAuthorizer.js",
+        },
+      },
+    ],
   },
   schema: { content: schemaContent },
   dataSources: [
